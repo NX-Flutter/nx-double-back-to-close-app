@@ -18,5 +18,5 @@ dev_dependencies:
     sdk: flutter
   test: any
 
-  double_back_to_close_app:
+  nx_double_back_to_close_app:
     path: ../
