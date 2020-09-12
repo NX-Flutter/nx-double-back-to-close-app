@@ -12,20 +12,25 @@ import 'package:flutter/material.dart';
 /// Since the back-button is an Android feature, this Widget is going to be
 /// nothing but the own [child] if the current platform is anything but Android.
 class DoubleBackToCloseApp extends StatefulWidget {
-  /// The [SnackBar] shown when the user taps the back-button.
-  final SnackBar snackBar;
-
   /// The widget below this widget in the tree.
   final Widget child;
+
+  /// 按下第一次返回键是的行动
+  final Function onBackShow;
+
+  /// 多少秒之内可以二次退出
+  /// default 2s
+  final Duration doubleClickDuration;
 
   /// Creates a widget that allows the user to close the app by double tapping
   /// the back-button.
   const DoubleBackToCloseApp({
     Key key,
-    @required this.snackBar,
     @required this.child,
-  })  : assert(snackBar != null),
-        assert(child != null),
+    @required this.onBackShow,
+    this.doubleClickDuration,
+  })  : assert(child != null),
+        assert(onBackShow != null),
         super(key: key);
 
   @override
@@ -49,7 +54,7 @@ class _DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
   /// the user, so this algorithm needs to be improved, as described in #2.
   bool get _isSnackBarVisible =>
       (_lastTimeBackButtonWasTapped != null) &&
-      (widget.snackBar.duration >
+      ((widget.doubleClickDuration ?? Duration(seconds: 2)) >
           DateTime.now().difference(_lastTimeBackButtonWasTapped));
 
   /// Returns whether the next back navigation of this route will be handled
@@ -81,7 +86,7 @@ class _DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
       return true;
     } else {
       _lastTimeBackButtonWasTapped = DateTime.now();
-      Scaffold.of(context).showSnackBar(widget.snackBar);
+      widget.onBackShow();
       return false;
     }
   }

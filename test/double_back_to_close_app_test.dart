@@ -13,7 +13,6 @@ void main() {
     // `DoubleBackToCloseApp.snackBar` null.
     expect(
       () => DoubleBackToCloseApp(
-        snackBar: null,
         child: SizedBox(),
       ),
       throwsAssertionError,
@@ -22,7 +21,6 @@ void main() {
     // `DoubleBackToCloseApp.child` null.
     expect(
       () => DoubleBackToCloseApp(
-        snackBar: SnackBar(content: SizedBox()),
         child: null,
       ),
       throwsAssertionError,
@@ -299,13 +297,13 @@ class TestWidget extends StatefulWidget {
 class TestWidgetState extends State<TestWidget> {
   @override
   Widget build(BuildContext context) {
-    const doubleBackToCloseApp = DoubleBackToCloseApp(
-      snackBar: SnackBar(
-        content: Text('Press back again to leave'),
-      ),
+    DoubleBackToCloseApp doubleBackToCloseApp = DoubleBackToCloseApp(
       child: Center(
         child: Text('Hi there!'),
       ),
+      onBackShow: () {
+        print('double back');
+      },
     );
 
     return MaterialApp(
