@@ -1,5 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:nx_double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(Example());
